@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ervann Mrtnz — Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #050505;
+      --bg-elevated: #0c0c0c;
+      --bg-card: #111111;
+      --border: #1f1f1f;
+      --border-hover: #2a2a2a;
+      --text: #e8e8e8;
+      --text-muted: #8a8a8a;
+      --accent: #ffffff;
+      --accent-dim: rgba(255, 255, 255, 0.08);
+      --glow: rgba(255, 255, 255, 0.15);
+      --radius: 16px;
+      --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Noise texture overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      opacity: 0.03;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ===== NAV ===== */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 1.25rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(5, 5, 5, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid transparent;
+      transition: border-color var(--transition), background var(--transition);
+    }
+
+    nav.scrolled {
+      border-bottom-color: var(--border);
+      background: rgba(5, 5, 5, 0.92);
+    }
+
+    .logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      font-size: 1.15rem;
+      letter-spacing: -0.02em;
+      color: var(--accent);
+      text-decoration: none;
+      transition: opacity var(--transition);
+    }
+
+    .logo:hover {
+      opacity: 0.7;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color var(--transition);
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--accent);
+      transition: width var(--transition);
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      color: var(--text);
+    }
+
+    .menu-toggle svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 6rem 1.5rem 4rem;
+      position: relative;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 1rem;
+      background: var(--accent-dim);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+      letter-spacing: 0.02em;
+    }
+
+    .hero-badge .dot {
+      width: 6px;
+      height: 6px;
+      background: #22c55e;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.85); }
+    }
+
+    .hero h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(3rem, 10vw, 6.5rem);
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+      margin-bottom: 1.25rem;
+      background: linear-gradient(180deg, #ffffff 0%, #a0a0a0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero .subtitle {
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      color: var(--text-muted);
+      max-width: 520px;
+      margin: 0 auto 2.5rem;
+      font-weight: 400;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.85rem 1.75rem;
+      border-radius: 100px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: all var(--transition);
+      font-family: inherit;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #000;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(255, 255, 255, 0.15);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-ghost:hover {
+      background: var(--accent-dim);
+      border-color: var(--border-hover);
+      transform: translateY(-2px);
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.6;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(-8px); }
+    }
+
+    .scroll-hint .line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--text-muted), transparent);
+    }
+
+    /* ===== SECTIONS ===== */
+    section {
+      padding: 6rem 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.75rem;
+      font-weight: 500;
+    }
+
+    .section-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      margin-bottom: 3rem;
+    }
+
+    /* ===== ABOUT ===== */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    .about-image {
+      aspect-ratio: 1;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-image::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.04), transparent 60%);
+    }
+
+    .about-image .avatar {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--border);
+      display: block;
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.04);
+    }
+
+    .about-content p {
+      color: var(--text-muted);
+      margin-bottom: 1.25rem;
+      font-size: 1.05rem;
+    }
+
+    .about-content p strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .stat {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      text-align: center;
+      transition: border-color var(--transition), transform var(--transition);
+      cursor: default;
+    }
+
+    .stat:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-3px);
+    }
+
+    .stat-value {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.75rem;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.25rem;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* ===== SKILLS ===== */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 1rem;
+    }
+
+    .skill-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem 1.25rem;
+      text-align: center;
+      transition: all var(--transition);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .skill-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, var(--glow), transparent 70%);
+      opacity: 0;
+      transition: opacity var(--transition);
+    }
+
+    .skill-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-4px);
+    }
+
+    .skill-card:hover::before {
+      opacity: 1;
+    }
+
+    .skill-icon {
+      font-size: 1.75rem;
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+
+    .skill-name {
+      font-weight: 500;
+      font-size: 0.95rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .skill-level {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* ===== PROJECTS ===== */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .project-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: all var(--transition);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .project-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .project-thumb {
+      aspect-ratio: 16/10;
+      background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-thumb::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 70% 30%, rgba(255,255,255,0.05), transparent 50%);
+    }
+
+    .project-thumb span {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 3rem;
+      font-weight: 700;
+      color: rgba(255,255,255,0.08);
+      letter-spacing: -0.05em;
+      position: relative;
+      z-index: 1;
+    }
+
+    .project-body {
+      padding: 1.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .tag {
+      font-size: 0.7rem;
+      padding: 0.25rem 0.6rem;
+      background: var(--accent-dim);
+      border-radius: 100px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .project-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .project-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      flex: 1;
+      margin-bottom: 1.25rem;
+    }
+
+    .project-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text);
+      text-decoration: none;
+      transition: gap var(--transition);
+    }
+
+    .project-link:hover {
+      gap: 0.7rem;
+    }
+
+    /* ===== CONTACT ===== */
+    .contact-wrapper {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+
+    .contact-wrapper p {
+      color: var(--text-muted);
+      max-width: 480px;
+      margin: 0 auto 2rem;
+      font-size: 1.05rem;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .contact-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.9rem 1.5rem;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all var(--transition);
+    }
+
+    .contact-btn:hover {
+      background: var(--accent-dim);
+      border-color: var(--border-hover);
+      transform: translateY(-3px);
+    }
+
+    .contact-btn svg {
+      width: 18px;
+      height: 18px;
+      opacity: 0.7;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      text-align: center;
+      padding: 3rem 1.5rem;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    footer a {
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    /* ===== SOUND TOGGLE ===== */
+    .sound-toggle {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      z-index: 100;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    }
+
+    .sound-toggle:hover {
+      border-color: var(--border-hover);
+      transform: scale(1.08);
+    }
+
+    .sound-toggle.muted {
+      opacity: 0.5;
+    }
+
+    .sound-toggle svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      nav {
+        padding: 1rem 1.25rem;
+      }
+
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(5, 5, 5, 0.98);
+        flex-direction: column;
+        padding: 1.5rem;
+        gap: 1.25rem;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .about-image {
+        max-width: 280px;
+        margin: 0 auto;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+
+      section {
+        padding: 4rem 1.25rem;
+      }
+
+      .contact-wrapper {
+        padding: 2rem 1.25rem;
+      }
+    }
+
+    /* Reveal animation */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+  <!-- NAV -->
+  <nav id="navbar">
+    <a href="#hero" class="logo" data-sound>Ervann Mrtnz</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about" data-sound>About</a></li>
+      <li><a href="#skills" data-sound>Skills</a></li>
+      <li><a href="#projects" data-sound>Projects</a></li>
+      <li><a href="#contact" data-sound>Contact</a></li>
+    </ul>
+    <button class="menu-toggle" id="menuToggle" data-sound aria-label="Menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+    </button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-badge">
+      <span class="dot"></span>
+      Available for work
+    </div>
+    <h1>Ervann Mrtnz</h1>
+    <p class="subtitle">
+      Creative Developer &amp; Designer focused on building clean, aesthetic digital experiences.
+    </p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-primary" data-sound>View Projects</a>
+      <a href="#contact" class="btn btn-ghost" data-sound>Get in Touch</a>
+    </div>
+    <div class="scroll-hint">
+      <span>Scroll</span>
+      <div class="line"></div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <p class="section-label reveal">About Me</p>
+    <h2 class="section-title reveal">Crafting digital experiences with purpose</h2>
+    <div class="about-grid">
+      <div class="about-image reveal">
+        <img class="avatar" src="https://cdn.phototourl.com/free/2026-08-01-dd2f627d-e179-4708-8e30-601a6e53e66b.png" alt="Ervann Mrtnz" />
+      </div>
+      <div class="about-content reveal">
+        <p>
+          Halo, saya <strong>Ervann Mrtnz</strong>. Saya adalah developer &amp; designer yang fokus pada antarmuka yang bersih, minimal, dan penuh karakter.
+        </p>
+        <p>
+          Saya percaya bahwa desain yang baik adalah desain yang tidak mengganggu — ia hanya bekerja. Setiap pixel, interaksi, dan transisi harus terasa natural.
+        </p>
+        <p>
+          Saat ini saya terbuka untuk kolaborasi, freelance project, dan peluang baru yang menarik.
+        </p>
+        <div class="stats">
+          <div class="stat" data-sound>
+            <div class="stat-value">79+</div>
+            <div class="stat-label">Years Exp</div>
+          </div>
+          <div class="stat" data-sound>
+            <div class="stat-value">159+</div>
+            <div class="stat-label">Projects</div>
+          </div>
+          <div class="stat" data-sound>
+            <div class="stat-value">100%</div>
+            <div class="stat-label">Passion</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <p class="section-label reveal">Expertise</p>
+    <h2 class="section-title reveal">Tools &amp; Technologies</h2>
+    <div class="skills-grid">
+      <div class="skill-card reveal" data-sound>
+        <span class="skill-icon">⚡</span>
+        <div class="skill-name">HTML / CSS</div>
+        <div class="skill-level">Advanced</div>
+      </div>
+      <div class="skill-card reveal" data-sound>
+        <span class="skill-icon">🟨</span>
+        <div class="skill-name">JavaScript</div>
+        <div class="skill-level">Advanced</div>
+      </div>
+      <div class="skill-card reveal" data-sound>
+        <span class="skill-icon">⚛️</span>
+        <div class="skill-name">React</div>
+        <div class="skill-level">Intermediate</div>
+      </div>
+      <div class="skill-card reveal" data-sound>
+        <span class="skill-icon">🎨</span>
+        <div class="skill-name">UI / UX Design</div>
+        <div class="skill-level">Advanced</div>
+      </div>
+      <div class="skill-card reveal" data-sound>
+        <span class="skill-icon">📱</span>
+        <div class="skill-name">Responsive</div>
+        <div class="skill-level">Advanced</div>
+      </div>
+      <div class="skill-card reveal" data-sound>
+        <span class="skill-icon">🔧</span>
+        <div class="skill-name">Git / GitHub</div>
+        <div class="skill-level">Intermediate</div>
+      </div>
+      <div class="skill-card reveal" data-sound>
+        <span class="skill-icon">🎭</span>
+        <div class="skill-name">Figma</div>
+        <div class="skill-level">Advanced</div>
+      </div>
+      <div class="skill-card reveal" data-sound>
+        <span class="skill-icon">🚀</span>
+        <div class="skill-name">Performance</div>
+        <div class="skill-level">Intermediate</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <p class="section-label reveal">Selected Work</p>
+    <h2 class="section-title reveal">Featured Projects</h2>
+    <div class="projects-grid">
+      <article class="project-card reveal" data-sound>
+        <div class="project-thumb"><span>01</span></div>
+        <div class="project-body">
+          <div class="project-tags">
+            <span class="tag">Web App</span>
+            <span class="tag">UI Design</span>
+          </div>
+          <h3 class="project-title">Noir Dashboard</h3>
+          <p class="project-desc">Dark-themed analytics dashboard with real-time data visualization and smooth micro-interactions.</p>
+          <a href="#" class="project-link" data-sound>View Project →</a>
+        </div>
+      </article>
+      <article class="project-card reveal" data-sound>
+        <div class="project-thumb"><span>02</span></div>
+        <div class="project-body">
+          <div class="project-tags">
+            <span class="tag">Landing Page</span>
+            <span class="tag">Brand</span>
+          </div>
+          <h3 class="project-title">Aether Studio</h3>
+          <p class="project-desc">Minimalist portfolio website for a creative agency. Focused on typography and negative space.</p>
+          <a href="#" class="project-link" data-sound>View Project →</a>
+        </div>
+      </article>
+      <article class="project-card reveal" data-sound>
+        <div class="project-thumb"><span>03</span></div>
+        <div class="project-body">
+          <div class="project-tags">
+            <span class="tag">Mobile</span>
+            <span class="tag">React</span>
+          </div>
+          <h3 class="project-title">Pulse Tracker</h3>
+          <p class="project-desc">Fitness tracking mobile web app with clean charts and haptic-inspired interactions.</p>
+          <a href="#" class="project-link" data-sound>View Project →</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <p class="section-label reveal">Contact</p>
+    <h2 class="section-title reveal">Let's work together</h2>
+    <div class="contact-wrapper reveal">
+      <p>
+        Punya ide project atau ingin berkolaborasi? Saya selalu terbuka untuk percakapan yang menarik.
+      </p>
+      <div class="contact-links">
+        <a href="ervannmrtinez@gmail.com" target="_blank"rel="noopener" class="contact-btn"data-sound>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="4" width="20" height="16" rx="2"/>
+            <path d="M22 7l-10 7L2 7"/>
+          </svg>
+          Email
+        </a>
+        <a href="https://www.instagram.com/https.vannmrch?igsh=bnEybGQwbHZhamFq" target="_blank" rel="noopener" class="contact-btn" data-sound>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="2" width="20" height="20" rx="5"/>
+            <circle cx="12" cy="12" r="4"/>
+            <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/>
+          </svg>
+          Instagram
+        </a>
+        <a href="https://github.com" target="_blank" rel="noopener" class="contact-btn" data-sound>
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.09.682-.22.682-.48 0-.24-.009-.87-.014-1.71-2.782.6-3.369-1.34-3.369-1.34-.454-1.16-1.11-1.47-1.11-1.47-.908-.62.069-.61.069-.61 1.003.07 1.531 1.03 1.531 1.03.892 1.53 2.341 1.09 2.91.83.09-.65.35-1.09.636-1.34-2.22-.25-4.555-1.11-4.555-4.94 0-1.09.39-1.98 1.029-2.68-.103-.25-.446-1.27.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.38.203 2.4.1 2.65.64.7 1.028 1.59 1.028 2.68 0 3.84-2.339 4.68-4.566 4.93.359.31.678.92.678 1.85 0 1.34-.012 2.42-.012 2.75 0 .26.18.58.688.48A10.019 10.019 0 0022 12c0-5.523-4.477-10-10-10z"/>
+          </svg>
+          GitHub
+        </a>
+        <a href="https://linkedin.com" target="_blank" rel="noopener" class="contact-btn" data-sound>
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/>
+            <circle cx="4" cy="4" r="2"/>
+          </svg>
+          LinkedIn
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2026 <a href="#hero" data-sound>Ervann Mrtnz</a>. Crafted with care.</p>
+  </footer>
+
+  <!-- SOUND TOGGLE -->
+  <button class="sound-toggle" id="soundToggle" data-sound aria-label="Toggle sound">
+    <svg id="soundIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+      <path d="M15.54 8.46a5 5 0 010 7.07"/>
+      <path d="M19.07 4.93a10 10 0 010 14.14"/>
+    </svg>
+  </button>
+
+  <script>
+    // ===== SOUND SYSTEM (Web Audio API) =====
+    let audioCtx = null;
+    let soundEnabled = true;
+
+    function initAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    function playClickSound() {
+      if (!soundEnabled || !audioCtx) return;
+
+      const now = audioCtx.currentTime;
+
+      // Soft click / tick sound
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(800, now);
+      osc.frequency.exponentialRampToValueAtTime(400, now + 0.08);
+
+      gain.gain.setValueAtTime(0.15, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+
+      osc.start(now);
+      osc.stop(now + 0.1);
+    }
+
+    function playHoverSound() {
+      if (!soundEnabled || !audioCtx) return;
+
+      const now = audioCtx.currentTime;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(600, now);
+
+      gain.gain.setValueAtTime(0.04, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
+
+      osc.start(now);
+      osc.stop(now + 0.06);
+    }
+
+    // Init audio on first interaction
+    document.addEventListener('click', initAudio, { once: true });
+    document.addEventListener('touchstart', initAudio, { once: true });
+
+    // Attach sound to all [data-sound] elements
+    document.querySelectorAll('[data-sound]').forEach(el => {
+      el.addEventListener('click', () => {
+        playClickSound();
+      });
+      el.addEventListener('mouseenter', () => {
+        playHoverSound();
+      });
+    });
+
+    // Sound toggle button
+    const soundToggle = document.getElementById('soundToggle');
+    const soundIcon = document.getElementById('soundIcon');
+
+    soundToggle.addEventListener('click', () => {
+      soundEnabled = !soundEnabled;
+      soundToggle.classList.toggle('muted', !soundEnabled);
+
+      if (soundEnabled) {
+        soundIcon.innerHTML = `
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+          <path d="M15.54 8.46a5 5 0 010 7.07"/>
+          <path d="M19.07 4.93a10 10 0 010 14.14"/>
+        `;
+        playClickSound();
+      } else {
+        soundIcon.innerHTML = `
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+          <line x1="23" y1="9" x2="17" y2="15"/>
+          <line x1="17" y1="9" x2="23" y2="15"/>
+        `;
+      }
+    });
+
+    // ===== NAV =====
+    const navbar = document.getElementById('navbar');
+    const menuToggle = document.getElementById('menuToggle');
+    const navLinks = document.getElementById('navLinks');
+
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    menuToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+    });
+
+    // Close mobile menu on link click
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+      });
+    });
+
+    // ===== SCROLL REVEAL =====
+    const reveals = document.querySelectorAll('.reveal');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, {
+      threshold: 0.12,
+      rootMargin: '0px 0px -40px 0px'
+    });
+
+    reveals.forEach(el => observer.observe(el));
+
+    // Smooth scroll for anchor links (extra polish)
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
